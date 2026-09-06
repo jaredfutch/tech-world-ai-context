@@ -9,73 +9,49 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
-    "README.md",
-    "LICENSE",
-    "TRADEMARKS.md",
-    "SECURITY.md",
-    "SUPPORT.md",
-    "GOVERNANCE.md",
-    "CONTRIBUTING.md",
-    "VERSION",
-    "CHANGELOG.md",
-    "bootstrap.md",
     "AGENTS.md",
-    "docs/specification-v1.md",
-    "docs/compatibility.md",
-    "docs/versioning.md",
-    "docs/release-process.md",
-    "docs/project-standard.md",
-    "templates/AGENTS.template.md",
-    "templates/custom-instructions.example.md",
-    "templates/project-register.template.md",
-    "templates/project-standard/README.md",
-    "templates/project-standard/AGENTS.md",
-    "templates/project-standard/PROJECT.md",
-    "templates/project-standard/DECISIONS.md",
-    "templates/project-standard/CORRECTIONS.md",
-    "templates/project-standard/HANDOFF.md",
-    "templates/project-standard/docs/DEPLOYMENT.md",
-    "templates/project-standard/docs/BACKUP-ROLLBACK.md",
-    "templates/project-standard/docs/DATA-IDENTITY.md",
-    "templates/project-standard/database/migrations/README.md",
-    "templates/project-standard/tests/README.md",
-    "templates/project-standard/releases/RELEASE.template.md",
-    "templates/project-standard/scripts/validate_project.py",
-    "templates/project-standard/.github/workflows/verify-project.yml",
+    "PROJECT.md",
+    "DECISIONS.md",
+    "CORRECTIONS.md",
+    "HANDOFF.md",
+    "CHANGELOG.md",
+    "docs/DEPLOYMENT.md",
+    "docs/BACKUP-ROLLBACK.md",
+    "docs/DATA-IDENTITY.md",
+    "database/migrations/README.md",
+    "tests/README.md",
+    "releases/README.md",
+    "releases/RELEASE.template.md",
 ]
 
-TEXT_SUFFIXES = {".md", ".txt", ".yml", ".yaml", ".json", ".py"}
+STATUS_CHAIN = "Requested → Implemented → Code-Verified → Runtime-Tested → Deployed → User-Accepted"
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 SUSPICIOUS_PATTERNS = {
     "private key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     "github token": re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b"),
     "aws access key": re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
 }
+TEXT_SUFFIXES = {".md", ".txt", ".yml", ".yaml", ".json", ".py", ".sh", ".sql"}
 
 
 def iter_text_files():
     for path in ROOT.rglob("*"):
-        if not path.is_file():
+        if not path.is_file() or ".git" in path.parts:
             continue
-        if ".git" in path.parts:
-            continue
-        if path.name in {"LICENSE", "VERSION"} or path.suffix.lower() in TEXT_SUFFIXES:
+        if path.suffix.lower() in TEXT_SUFFIXES or path.name in {"VERSION", "LICENSE"}:
             yield path
 
 
 def check_required(errors: list[str]) -> None:
     for rel in REQUIRED_FILES:
         if not (ROOT / rel).is_file():
-            errors.append(f"missing required file: {rel}")
+            errors.append(f"missing required project-control file: {rel}")
 
 
-def check_version(errors: list[str]) -> None:
-    path = ROOT / "VERSION"
-    if not path.exists():
-        return
-    value = path.read_text(encoding="utf-8").strip()
-    if not re.fullmatch(r"\d+\.\d+\.\d+", value):
-        errors.append(f"VERSION is not semantic version format: {value!r}")
+def check_status_model(errors: list[str]) -> None:
+    agents = ROOT / "AGENTS.md"
+    if agents.is_file() and STATUS_CHAIN not in agents.read_text(encoding="utf-8", errors="replace"):
+        errors.append("AGENTS.md does not contain the canonical status chain")
 
 
 def check_links(errors: list[str]) -> None:
@@ -90,10 +66,7 @@ def check_links(errors: list[str]) -> None:
             parsed = urlparse(target)
             if parsed.scheme or target.startswith("mailto:"):
                 continue
-            if target.startswith("/"):
-                candidate = ROOT / target.lstrip("/")
-            else:
-                candidate = (path.parent / target).resolve()
+            candidate = (ROOT / target.lstrip("/")) if target.startswith("/") else (path.parent / target).resolve()
             try:
                 candidate.relative_to(ROOT.resolve())
             except ValueError:
@@ -105,7 +78,7 @@ def check_links(errors: list[str]) -> None:
 
 def check_sensitive_patterns(errors: list[str]) -> None:
     for path in iter_text_files():
-        if path.name == Path(__file__).name:
+        if path.resolve() == Path(__file__).resolve():
             continue
         text = path.read_text(encoding="utf-8", errors="replace")
         for label, pattern in SUSPICIOUS_PATTERNS.items():
@@ -116,17 +89,17 @@ def check_sensitive_patterns(errors: list[str]) -> None:
 def main() -> int:
     errors: list[str] = []
     check_required(errors)
-    check_version(errors)
+    check_status_model(errors)
     check_links(errors)
     check_sensitive_patterns(errors)
 
     if errors:
-        print("Repository validation failed:")
+        print("Project Standard validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
 
-    print("Repository validation passed.")
+    print("Project Standard validation passed.")
     print(f"Checked {sum(1 for _ in iter_text_files())} text files.")
     return 0
 

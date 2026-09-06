@@ -1,0 +1,29 @@
+name: Verify Project Standard
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  project-standard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate project control plane
+        run: python scripts/validate_project.py
+
+      # Add the repository's real build, lint, test, migration-validation,
+      # and smoke-test commands here after they have been discovered and
+      # documented in AGENTS.md / PROJECT.md. Do not guess them.
