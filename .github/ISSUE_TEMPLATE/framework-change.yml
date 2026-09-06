@@ -1,0 +1,48 @@
+name: Specification change
+description: Propose a change to the formal framework behavior or compatibility requirements
+title: "Spec: "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What current behavior is insufficient, ambiguous, unsafe, or incompatible?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: State the proposed requirement or behavior precisely.
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Expected version impact
+      options:
+        - Patch - clarification/non-behavioral
+        - Minor - backward-compatible addition
+        - Major - breaking mandatory behavior
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility impact
+      description: Explain what existing implementations would need to change, if anything.
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy/security impact
+      description: Explain any effect on public/private separation, external actions, or sensitive data.
+  - type: checkboxes
+    id: sanitized
+    attributes:
+      label: Submission check
+      options:
+        - label: This proposal contains no private or sensitive project data.
+          required: true
