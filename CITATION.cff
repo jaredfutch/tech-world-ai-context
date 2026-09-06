@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this framework in research, documentation, or a derivative project, please cite the canonical repository."
+title: "Tech-World AI Context Framework"
+type: software
+authors:
+  - family-names: "Futch"
+    given-names: "Jared"
+    affiliation: "Tech-World LLC"
+version: "1.0.0"
+date-released: "2026-09-06"
+url: "https://github.com/jaredfutch/tech-world-ai-context"
+repository-code: "https://github.com/jaredfutch/tech-world-ai-context"
+license: MIT
+abstract: "A layered, versioned context architecture for long-running AI-assisted work across ChatGPT, Codex, repositories, projects, files, and connected tools."
+keywords:
+  - artificial intelligence
+  - context engineering
+  - AI agents
+  - ChatGPT
+  - Codex
+  - AGENTS.md
