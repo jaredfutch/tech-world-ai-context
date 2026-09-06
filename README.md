@@ -153,9 +153,13 @@ Issues and pull requests are welcome. Useful areas include:
 - durable correction/decision tracking;
 - examples for additional development environments.
 
-## License
+## License and use
 
-MIT. See [`LICENSE`](LICENSE).
+The framework, templates, documentation, and examples are licensed under the **MIT License**. You may use them personally or commercially, modify them, fork them, redistribute them, and build products or services from them, subject to the MIT License terms. See [`LICENSE`](LICENSE).
+
+The MIT License does **not** grant permission to present a third-party or modified implementation as an official Tech-World product or to imply Tech-World sponsorship, endorsement, certification, or affiliation. Tech-World names, logos, and branding remain separate from the open-source license. See [`TRADEMARKS.md`](TRADEMARKS.md).
+
+In short: **use the framework freely; use your own branding; do not impersonate Tech-World or imply endorsement.**
 
 ---
 
