@@ -1,6 +1,6 @@
 # Tech-World AI Context Framework
 
-**Current framework version: 1.0.0**
+**Current framework version: 1.1.0**
 
 A practical, layered context architecture for long-running AI-assisted work across ChatGPT, Codex, repositories, projects, files, and connected tools.
 
@@ -68,6 +68,8 @@ Compatibility does **not** imply endorsement, sponsorship, certification, affili
 - `templates/AGENTS.template.md` — reusable project-specific agent instructions.
 - `templates/custom-instructions.example.md` — compact persistent pointer for ChatGPT-style custom instructions.
 - `templates/project-register.template.md` — private project-register starter.
+- `templates/project-standard/` — ready-to-copy repository control plane for substantial software projects.
+- `docs/project-standard.md` — Git/version control, project manifests, stable IDs, migrations, tests, deployment evidence, backups, rollback, and handoff guidance.
 - `docs/specification-v1.md` — mandatory v1 compatibility requirements.
 - `docs/compatibility.md` — permitted compatibility language.
 - `docs/versioning.md` and `docs/release-process.md` — semantic versioning and release governance.
@@ -104,11 +106,17 @@ Each substantial repository should document its real stack, protected behavior, 
 
 See [`templates/AGENTS.template.md`](templates/AGENTS.template.md).
 
-### 4. Keep private project state private
+### 4. Adopt the Project Standard for substantial software
+
+For projects that need durable versioning, migrations, testing, deployment evidence, stable IDs, backups, rollback, decisions, corrections, and handoff state, copy the [`templates/project-standard/`](templates/project-standard/README.md) starter into the project repository and populate it from current evidence.
+
+See [`docs/project-standard.md`](docs/project-standard.md).
+
+### 5. Keep private project state private
 
 Customer data, credentials, contracts, schedules, internal financial data, private correspondence, and proprietary project facts should not be placed in a public bootstrap tree. Store them in authorized private project files, repositories, connected systems, or other access-controlled sources.
 
-### 5. Reconcile instead of blindly merging
+### 6. Reconcile instead of blindly merging
 
 A useful precedence model is:
 
@@ -148,11 +156,12 @@ Request
   → load bootstrap guidance
   → inspect/create repository
   → establish architecture and boundaries
-  → create project AGENTS.md
+  → create project AGENTS.md / Project Standard controls
   → implement
   → verify
   → deploy only when authorized
   → record decisions/corrections
+  → record release evidence
   → update project status
 ```
 
@@ -166,7 +175,13 @@ Run locally:
 python scripts/validate_repo.py
 ```
 
-GitHub Actions runs the same validator on pushes to `main` and on pull requests.
+The Project Standard starter also includes its own zero-dependency validator and GitHub Actions workflow. After copying the starter into a project, run:
+
+```bash
+python scripts/validate_project.py
+```
+
+GitHub Actions can run the same control-plane check on pull requests and pushes. Project-specific build, lint, test, migration, and smoke commands must still be added from the real repository rather than guessed.
 
 This is defense-in-depth. Automated checks do not replace the requirement to keep private data out of the public repository.
 
