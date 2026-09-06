@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security reports
+    url: https://github.com/jaredfutch/tech-world-ai-context/blob/main/SECURITY.md
+    about: Do not post sensitive security details in public issues.
+  - name: Support policy
+    url: https://github.com/jaredfutch/tech-world-ai-context/blob/main/SUPPORT.md
+    about: Review what community support includes and does not include.
