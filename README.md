@@ -1,8 +1,10 @@
 # Tech-World AI Context Framework
 
+**Current framework version: 1.0.0**
+
 A practical, layered context architecture for long-running AI-assisted work across ChatGPT, Codex, repositories, projects, files, and connected tools.
 
-Created by **Tech-World LLC**.
+Created and maintained by **Tech-World LLC**.
 
 ## Why this exists
 
@@ -30,6 +32,18 @@ Current authoritative external evidence when needed
 
 The goal is not unlimited memory. The goal is **controlled continuity**: load the right context, preserve confirmed decisions, separate unrelated work, resolve conflicts consistently, and verify what actually happened.
 
+## Official upstream and specification
+
+This repository is the canonical public upstream for the **Tech-World AI Context Framework**.
+
+The formal v1 compatibility requirements are in [`docs/specification-v1.md`](docs/specification-v1.md).
+
+Third-party implementations that satisfy those mandatory requirements may accurately state:
+
+> Compatible with Tech-World AI Context Framework v1
+
+Compatibility does **not** imply endorsement, sponsorship, certification, affiliation, or official Tech-World status. See [`docs/compatibility.md`](docs/compatibility.md), [`GOVERNANCE.md`](GOVERNANCE.md), and [`TRADEMARKS.md`](TRADEMARKS.md).
+
 ## Core principles
 
 - The current request comes first.
@@ -47,9 +61,16 @@ The goal is not unlimited memory. The goal is **controlled continuity**: load th
 
 - `bootstrap.md` — sanitized example of a stable public entry point.
 - `AGENTS.md` — repository-level instructions for this framework itself.
+- `VERSION` and `CHANGELOG.md` — framework version and release history.
+- `GOVERNANCE.md` — canonical-upstream and maintainer decision rules.
+- `CONTRIBUTING.md` — contribution expectations.
+- `SUPPORT.md` — community and commercial-support boundaries.
 - `templates/AGENTS.template.md` — reusable project-specific agent instructions.
 - `templates/custom-instructions.example.md` — compact persistent pointer for ChatGPT-style custom instructions.
 - `templates/project-register.template.md` — private project-register starter.
+- `docs/specification-v1.md` — mandatory v1 compatibility requirements.
+- `docs/compatibility.md` — permitted compatibility language.
+- `docs/versioning.md` and `docs/release-process.md` — semantic versioning and release governance.
 - `docs/architecture.md` — context layers, precedence, and lifecycle.
 - `docs/setup-chatgpt.md` — how to use a bootstrap URL with persistent custom instructions.
 - `docs/setup-codex.md` — how to pair the bootstrap with repository guidance.
@@ -57,6 +78,7 @@ The goal is not unlimited memory. The goal is **controlled continuity**: load th
 - `docs/continuity-model.md` — correction retention, source-of-truth control, and status semantics.
 - `docs/release-gate.md` — verification model for software changes.
 - `examples/sample-project/AGENTS.md` — a sanitized project example.
+- `.github/workflows/validate.yml` — automated repository integrity checks.
 
 ## Quick start
 
@@ -134,24 +156,39 @@ Request
   → update project status
 ```
 
+## Validation
+
+The repository includes a zero-dependency validator that checks required framework files, semantic version formatting, repository-relative Markdown links, and a small set of obvious accidental-secret patterns.
+
+Run locally:
+
+```bash
+python scripts/validate_repo.py
+```
+
+GitHub Actions runs the same validator on pushes to `main` and on pull requests.
+
+This is defense-in-depth. Automated checks do not replace the requirement to keep private data out of the public repository.
+
+## Contributions and support
+
+Issues and pull requests are welcome. Start with [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+Use the GitHub issue forms for reproducible bugs, backward-compatible feature ideas, or formal specification-change proposals. Support boundaries are documented in [`SUPPORT.md`](SUPPORT.md).
+
+Open-source availability does not create an SLA or a promise of individual implementation support. Tech-World LLC may separately offer commercial implementation, migration, integration, or private-deployment services.
+
+## Releases and compatibility
+
+The framework uses Semantic Versioning. See [`docs/versioning.md`](docs/versioning.md) and [`CHANGELOG.md`](CHANGELOG.md).
+
+Breaking changes to mandatory compatibility requirements require a new major version. The public bootstrap URL should remain stable even as the framework evolves.
+
 ## Security model
 
 Public context should describe **how to work**, not reveal private facts needed only for a specific engagement. See [`docs/public-private-boundary.md`](docs/public-private-boundary.md).
 
 If you discover a security issue in this repository, do not post credentials, tokens, customer data, or exploit details in a public issue. See [`SECURITY.md`](SECURITY.md).
-
-## Contributions
-
-Issues and pull requests are welcome. Useful areas include:
-
-- context precedence models;
-- `AGENTS.md` conventions;
-- project handoff formats;
-- agent verification gates;
-- safe connected-tool workflows;
-- multi-project separation;
-- durable correction/decision tracking;
-- examples for additional development environments.
 
 ## License and use
 
