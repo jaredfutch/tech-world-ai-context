@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a backward-compatible framework, tooling, documentation, or example improvement
+title: "Feature: "
+labels: []
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Need
+      description: What problem or adoption friction would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Proposed improvement
+      description: Describe the behavior, template, documentation, tooling, or example you propose.
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility
+      description: Explain whether this changes any mandatory v1 behavior.
+  - type: checkboxes
+    id: sanitized
+    attributes:
+      label: Submission check
+      options:
+        - label: This request contains no private or sensitive project data.
+          required: true
