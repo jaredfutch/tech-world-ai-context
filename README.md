@@ -5,6 +5,10 @@
 [![Version](https://img.shields.io/badge/version-1.1.0-blue)](VERSION)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+<p align="center">
+  <img src="assets/social-preview.svg" alt="Tech-World AI Context Framework — Intent to Evidence to Implementation to Verification" width="100%">
+</p>
+
 A layered, versioned, open-source framework for keeping long-running AI-assisted work grounded in current project truth instead of relying on conversational memory alone.
 
 > **Conversation history tells us what the project is supposed to be.**  
