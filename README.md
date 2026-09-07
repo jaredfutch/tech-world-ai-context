@@ -1,36 +1,146 @@
 # Tech-World AI Context Framework
 
-**Current framework version: 1.1.0**
+**Controlled continuity for ChatGPT, Codex, and AI coding agents.**
 
-A practical, layered context architecture for long-running AI-assisted work across ChatGPT, Codex, repositories, projects, files, and connected tools.
+[![Version](https://img.shields.io/badge/version-1.1.0-blue)](VERSION)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+A layered, versioned, open-source framework for keeping long-running AI-assisted work grounded in current project truth instead of relying on conversational memory alone.
+
+> **Conversation history tells us what the project is supposed to be.**  
+> **Current artifacts tell us what the project actually is.**  
+> **Verification tells us what actually works.**
+
+**Current framework version: 1.1.0**
 
 Created and maintained by **Tech-World LLC**.
 
 ## Why this exists
 
-AI assistants are useful in a single conversation, but substantial work rarely lives in one conversation. Real projects accumulate decisions, corrections, repositories, files, deployment rules, private records, and changing external facts. Repeating all of that context manually is slow and error-prone.
+AI assistants can be excellent inside one conversation. Real projects are harder: they accumulate decisions, corrections, repositories, database changes, deployment state, integrations, private records, and changing external facts.
 
-This framework uses a small stable pointer plus layered project context so an assistant can load the right guidance for the task without treating one giant prompt as the source of truth.
+The failure mode is subtle: an assistant may correctly remember the *intent* of a project while being wrong about the *current implementation*.
+
+The Tech-World AI Context Framework separates those layers and defines how to reconcile them.
 
 ```text
 Current request
     ↓
-Custom Instructions / persistent pointer
+Persistent instructions / stable bootstrap
     ↓
-Public bootstrap.md
+Repository AGENTS.md
     ↓
-Operating guidance
+Private project records
     ↓
-Project / repository AGENTS.md
+Current source + schema + configuration
     ↓
-Private project records and current files
+Implementation
     ↓
-Actual implementation / live state
+Verification evidence
     ↓
-Current authoritative external evidence when needed
+Deployment state
+    ↓
+User acceptance
 ```
 
-The goal is not unlimited memory. The goal is **controlled continuity**: load the right context, preserve confirmed decisions, separate unrelated work, resolve conflicts consistently, and verify what actually happened.
+The goal is not unlimited memory. The goal is **controlled continuity**.
+
+## See it in one minute
+
+Read the [one-minute demo](docs/one-minute-demo.md) for a concrete before/after example of how stale conversational context can create duplicate or incorrect repairs—and how the framework changes the workflow.
+
+For substantial software projects, see the [Project Standard](docs/project-standard.md), which adds project manifests, decisions, corrections, handoffs, stable IDs, migrations, tests, deployment evidence, backups, and rollback guidance.
+
+## The key operating rule
+
+When history and reality differ, do not silently blend them.
+
+A practical precedence model is:
+
+1. Newest explicit user correction, approval, rejection, or decision.
+2. Current authoritative artifact or directly observed live state.
+3. Current private project/repository instructions.
+4. Current public operating guidance.
+5. Earlier confirmed conversation context.
+6. Estimates, assumptions, or external inferences.
+
+Platform, safety, legal, privacy, and access-control requirements still apply.
+
+## Status is evidence, not optimism
+
+Substantial software work uses this progression:
+
+```text
+Requested → Implemented → Code-Verified → Runtime-Tested → Deployed → User-Accepted
+```
+
+A code edit is not a deployment. A deployment is not acceptance. Missing evidence remains missing rather than being upgraded to “done.”
+
+## What is included
+
+- `bootstrap.md` — sanitized stable public entry point.
+- `AGENTS.md` — repository-level instructions for this framework itself.
+- `VERSION` and `CHANGELOG.md` — framework version and release history.
+- `GOVERNANCE.md` — canonical-upstream and maintainer decision rules.
+- `CONTRIBUTING.md` — contribution expectations.
+- `SUPPORT.md` — community and commercial-support boundaries.
+- `templates/AGENTS.template.md` — reusable project-specific agent instructions.
+- `templates/custom-instructions.example.md` — compact persistent pointer for ChatGPT-style custom instructions.
+- `templates/project-register.template.md` — private project-register starter.
+- `templates/project-standard/` — ready-to-copy project control plane for substantial software.
+- `docs/project-standard.md` — version control, manifests, IDs, migrations, tests, deployment evidence, backups, rollback, and handoff guidance.
+- `docs/one-minute-demo.md` — concrete explanation of the framework in practice.
+- `docs/launch-kit.md` — public promotion and discussion starter copy.
+- `docs/specification-v1.md` — mandatory v1 compatibility requirements.
+- `docs/compatibility.md` — permitted compatibility language.
+- `docs/versioning.md` and `docs/release-process.md` — semantic versioning and release governance.
+- `docs/architecture.md` — context layers, precedence, and lifecycle.
+- `docs/setup-chatgpt.md` — using a bootstrap URL with persistent custom instructions.
+- `docs/setup-codex.md` — pairing the bootstrap with repository guidance.
+- `docs/public-private-boundary.md` — what belongs in public context vs private records.
+- `docs/continuity-model.md` — correction retention, source-of-truth control, and status semantics.
+- `docs/release-gate.md` — verification model for software changes.
+- `examples/sample-project/AGENTS.md` — sanitized project example.
+- `.github/workflows/validate.yml` — automated repository integrity checks.
+- `.github/workflows/release.yml` — automated GitHub release publication from `VERSION`.
+
+## Quick start
+
+### 1. Host a stable bootstrap
+
+Publish a small Markdown file at a URL you control. Keep the URL stable even as linked operating documents evolve.
+
+```text
+https://example.com/ai-context/bootstrap.md
+```
+
+### 2. Point persistent instructions to it
+
+Keep the persistent prompt compact. Tell the assistant when to retrieve the bootstrap, how to treat it, and what to do if it is unavailable.
+
+See [`templates/custom-instructions.example.md`](templates/custom-instructions.example.md).
+
+### 3. Put repository rules next to the code
+
+Each substantial repository should document its real stack, protected behavior, build/test commands, deployment boundary, known risks, and project-specific verification requirements in `AGENTS.md`.
+
+See [`templates/AGENTS.template.md`](templates/AGENTS.template.md).
+
+### 4. Adopt the Project Standard when the project is substantial
+
+Copy [`templates/project-standard/`](templates/project-standard/README.md) into the project repository and populate it from current evidence rather than guesses.
+
+### 5. Keep private project state private
+
+Customer data, credentials, contracts, schedules, internal financial data, private correspondence, and proprietary project facts should not be placed in a public bootstrap tree. Store them only in authorized private project files, repositories, connected systems, or other access-controlled sources.
+
+## Reference implementation
+
+Tech-World LLC maintains a live public bootstrap implementing this pattern:
+
+**https://tech-worldllc.com/ai-context/bootstrap.md**
+
+The live implementation intentionally contains only public operating guidance. This repository does **not** publish Tech-World private project records, customer records, credentials, live lead data, financial account data, confidential contracts, or other sensitive operational data.
 
 ## Official upstream and specification
 
@@ -44,112 +154,25 @@ Third-party implementations that satisfy those mandatory requirements may accura
 
 Compatibility does **not** imply endorsement, sponsorship, certification, affiliation, or official Tech-World status. See [`docs/compatibility.md`](docs/compatibility.md), [`GOVERNANCE.md`](GOVERNANCE.md), and [`TRADEMARKS.md`](TRADEMARKS.md).
 
-## Core principles
+## Validation
 
-- The current request comes first.
-- Stable operating guidance can live behind a public bootstrap URL.
-- Repository-specific instructions belong close to the code, typically in `AGENTS.md`.
-- Private project records stay private.
-- The newest explicit correction supersedes rejected earlier information.
-- Current artifacts and observed system state outrank stale summaries.
-- Proposed, implemented, tested, deployed, and accepted are different states.
-- External actions require explicit authorization and resolved targets.
-- Changeable facts should be re-verified from current authoritative sources.
-- Root causes should be fixed instead of accumulating cosmetic patches.
+Run the zero-dependency repository validator locally:
 
-## What is included
-
-- `bootstrap.md` — sanitized example of a stable public entry point.
-- `AGENTS.md` — repository-level instructions for this framework itself.
-- `VERSION` and `CHANGELOG.md` — framework version and release history.
-- `GOVERNANCE.md` — canonical-upstream and maintainer decision rules.
-- `CONTRIBUTING.md` — contribution expectations.
-- `SUPPORT.md` — community and commercial-support boundaries.
-- `templates/AGENTS.template.md` — reusable project-specific agent instructions.
-- `templates/custom-instructions.example.md` — compact persistent pointer for ChatGPT-style custom instructions.
-- `templates/project-register.template.md` — private project-register starter.
-- `templates/project-standard/` — ready-to-copy repository control plane for substantial software projects.
-- `docs/project-standard.md` — Git/version control, project manifests, stable IDs, migrations, tests, deployment evidence, backups, rollback, and handoff guidance.
-- `docs/specification-v1.md` — mandatory v1 compatibility requirements.
-- `docs/compatibility.md` — permitted compatibility language.
-- `docs/versioning.md` and `docs/release-process.md` — semantic versioning and release governance.
-- `docs/architecture.md` — context layers, precedence, and lifecycle.
-- `docs/setup-chatgpt.md` — how to use a bootstrap URL with persistent custom instructions.
-- `docs/setup-codex.md` — how to pair the bootstrap with repository guidance.
-- `docs/public-private-boundary.md` — what belongs in public context vs private records.
-- `docs/continuity-model.md` — correction retention, source-of-truth control, and status semantics.
-- `docs/release-gate.md` — verification model for software changes.
-- `examples/sample-project/AGENTS.md` — a sanitized project example.
-- `.github/workflows/validate.yml` — automated repository integrity checks.
-
-## Quick start
-
-### 1. Host a stable bootstrap
-
-Publish a small Markdown file at a URL you control. Keep it stable even as the linked operating documents evolve.
-
-Example:
-
-```text
-https://example.com/ai-context/bootstrap.md
+```bash
+python scripts/validate_repo.py
 ```
 
-### 2. Point your persistent instructions to it
+After copying the Project Standard into a project, run:
 
-Keep the persistent prompt compact. It should tell the assistant when to retrieve the bootstrap, how to treat it, and what to do if it is unavailable.
-
-See [`templates/custom-instructions.example.md`](templates/custom-instructions.example.md).
-
-### 3. Put repository rules in `AGENTS.md`
-
-Each substantial repository should document its real stack, protected behavior, build/test commands, deployment boundary, known risks, and project-specific verification requirements.
-
-See [`templates/AGENTS.template.md`](templates/AGENTS.template.md).
-
-### 4. Adopt the Project Standard for substantial software
-
-For projects that need durable versioning, migrations, testing, deployment evidence, stable IDs, backups, rollback, decisions, corrections, and handoff state, copy the [`templates/project-standard/`](templates/project-standard/README.md) starter into the project repository and populate it from current evidence.
-
-See [`docs/project-standard.md`](docs/project-standard.md).
-
-### 5. Keep private project state private
-
-Customer data, credentials, contracts, schedules, internal financial data, private correspondence, and proprietary project facts should not be placed in a public bootstrap tree. Store them in authorized private project files, repositories, connected systems, or other access-controlled sources.
-
-### 6. Reconcile instead of blindly merging
-
-A useful precedence model is:
-
-1. Newest explicit user correction, approval, rejection, or decision.
-2. Current authoritative artifact or directly observed live state.
-3. Current private project/repository instructions.
-4. Current public operating guidance.
-5. Earlier confirmed conversation context.
-6. Estimates, assumptions, or external inferences.
-
-Platform, safety, legal, and access-control requirements still apply.
-
-## Reference implementation
-
-Tech-World LLC maintains a live public bootstrap used as an implementation of this pattern:
-
-**https://tech-worldllc.com/ai-context/bootstrap.md**
-
-The live implementation intentionally contains only public operating guidance. This repository does **not** publish Tech-World private project records, customer records, credentials, live lead data, financial account data, confidential contracts, or other sensitive operational data.
-
-## Status model for substantial software work
-
-Use precise state labels:
-
-```text
-Requested → Implemented → Code-Verified → Runtime-Tested → Deployed → User-Accepted
+```bash
+python scripts/validate_project.py
 ```
 
-Do not collapse these into “done.” A build can be implemented without being runtime-tested, and deployed without being user-accepted.
+GitHub Actions runs framework validation on pushes and pull requests. Project-specific build, lint, test, migration, and smoke commands must still come from the real project repository rather than being invented by the generic framework.
+
+Automated checks are defense-in-depth. They do not replace the requirement to keep private data out of public repositories.
 
 ## New-project lifecycle
-
-For a brand-new project:
 
 ```text
 Request
@@ -165,26 +188,6 @@ Request
   → update project status
 ```
 
-## Validation
-
-The repository includes a zero-dependency validator that checks required framework files, semantic version formatting, repository-relative Markdown links, and a small set of obvious accidental-secret patterns.
-
-Run locally:
-
-```bash
-python scripts/validate_repo.py
-```
-
-The Project Standard starter also includes its own zero-dependency validator and GitHub Actions workflow. After copying the starter into a project, run:
-
-```bash
-python scripts/validate_project.py
-```
-
-GitHub Actions can run the same control-plane check on pull requests and pushes. Project-specific build, lint, test, migration, and smoke commands must still be added from the real repository rather than guessed.
-
-This is defense-in-depth. Automated checks do not replace the requirement to keep private data out of the public repository.
-
 ## Contributions and support
 
 Issues and pull requests are welcome. Start with [`CONTRIBUTING.md`](CONTRIBUTING.md).
@@ -193,17 +196,21 @@ Use the GitHub issue forms for reproducible bugs, backward-compatible feature id
 
 Open-source availability does not create an SLA or a promise of individual implementation support. Tech-World LLC may separately offer commercial implementation, migration, integration, or private-deployment services.
 
+## Promotion and discussion
+
+If you want to discuss or share the framework, [`docs/launch-kit.md`](docs/launch-kit.md) contains concise descriptions, discussion prompts, and launch-post starters. The strongest introduction is the [one-minute demo](docs/one-minute-demo.md), not just the repository root.
+
 ## Releases and compatibility
 
 The framework uses Semantic Versioning. See [`docs/versioning.md`](docs/versioning.md) and [`CHANGELOG.md`](CHANGELOG.md).
 
-Breaking changes to mandatory compatibility requirements require a new major version. The public bootstrap URL should remain stable even as the framework evolves.
+A release workflow validates the repository and publishes the matching GitHub release when `VERSION` advances on `main`. Breaking changes to mandatory compatibility behavior require a new major version.
 
 ## Security model
 
 Public context should describe **how to work**, not reveal private facts needed only for a specific engagement. See [`docs/public-private-boundary.md`](docs/public-private-boundary.md).
 
-If you discover a security issue in this repository, do not post credentials, tokens, customer data, or exploit details in a public issue. See [`SECURITY.md`](SECURITY.md).
+If you discover a security issue, do not post credentials, tokens, customer data, or exploit details in a public issue. See [`SECURITY.md`](SECURITY.md).
 
 ## License and use
 
