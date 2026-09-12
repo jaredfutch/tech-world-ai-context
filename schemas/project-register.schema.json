@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech-worldllc.com/ai-context/schemas/project-register.schema.json",
+  "title": "Tech-World Private Current Project Register",
+  "type": "object",
+  "required": ["schema_version", "updated_at", "projects"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "updated_at": {"type": ["string", "null"], "format": "date-time"},
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["project_id", "canonical_name", "status", "state_file", "project_file", "created_at"],
+        "properties": {
+          "project_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,79}$"},
+          "canonical_name": {"type": "string", "minLength": 1},
+          "aliases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "parent_project_id": {"type": ["string", "null"]},
+          "workstream": {"type": ["string", "null"]},
+          "classification": {"type": "string"},
+          "status": {"enum": ["active", "paused", "blocked", "completed", "canceled", "archived"]},
+          "stage": {"type": ["string", "null"]},
+          "state_file": {"type": "string"},
+          "project_file": {"type": "string"},
+          "handoff_file": {"type": ["string", "null"]},
+          "repository": {"type": ["string", "null"]},
+          "created_at": {"type": "string", "format": "date-time"},
+          "last_activity_at": {"type": ["string", "null"], "format": "date-time"},
+          "last_changed_at": {"type": ["string", "null"], "format": "date-time"},
+          "last_verified_at": {"type": ["string", "null"], "format": "date-time"},
+          "next_action": {"type": ["string", "null"]},
+          "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
