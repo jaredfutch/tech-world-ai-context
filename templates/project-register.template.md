@@ -1,18 +1,33 @@
 # Private Project Register Template
 
-> Keep this file private. Do not publish a populated register containing customer, financial, schedule, credential, or confidential project information.
+> Keep populated project records private. Never publish credentials, customer data, private schedules, contracts, financial-account data, confidential correspondence, health records, or production secrets in a public framework repository.
 
-## Project
+For machine-readable implementations, use the public schemas in `schemas/` and keep the populated JSON in an access-controlled private store.
 
-- Project ID:
-- Project name:
+## Canonical project identity
+
+- Project ID: permanent lowercase stable ID
+- Canonical name:
+- Aliases:
+- Parent project ID, if any:
 - Owner:
-- Operating role:
+- Tech-World role:
 - Repository/source:
+- Status: active / paused / blocked / completed / canceled / archived
+- Stage:
 - Current version/commit/archive:
-- Status:
-- Current priority:
 - Next action:
+
+A rename should update the canonical display name or aliases; it should not create a duplicate project ID.
+
+## State timestamps
+
+- Created at:
+- Last activity at:
+- Last changed at:
+- Last verified at:
+
+Do not treat these timestamps as interchangeable.
 
 ## Scope
 
@@ -33,21 +48,15 @@
 | --- | --- | --- | --- |
 | YYYY-MM-DD |  |  |  |
 
-## Costs / commitments
-
-Record only what is appropriate for the private storage system being used.
-
-- Budget/cost:
-- Price/revenue:
-- Payment terms:
-- External commitments:
-
-## Risks
+## Risks and open work
 
 - Risk:
 - Impact:
 - Mitigation:
 - Owner:
+
+- Open work:
+- Next verification:
 
 ## Verification state
 
@@ -58,6 +67,10 @@ Record only what is appropriate for the private storage system being used.
 - Deployed:
 - User-Accepted:
 
-## Evidence
+## Evidence and provenance
 
-Link to authorized private artifacts, current repository commits, tests, screenshots, logs, or connected records rather than copying secrets into this register.
+Reference authorized repositories, current files, tests, screenshots, logs, contracts, dashboards, or connected records. Store source references and verification timestamps; do not copy secrets merely for convenience.
+
+## Historical events
+
+Keep material project history append-only. When current state changes, update the current state record and append a new event rather than rewriting older events to match the new reality.
