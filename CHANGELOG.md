@@ -4,6 +4,30 @@ All notable changes to the Tech-World AI Context Framework are documented here.
 
 This project uses Semantic Versioning for the public framework specification.
 
+## [2.2.1] - 2026-09-12
+
+### Fixed
+
+- Made the private `contextctl.py` helper compatible with Python 3.6 Linux/cPanel hosts.
+- Removed newer-Python dependencies from the helper while preserving America/New_York timestamps.
+- Changed private tooling upgrades to preserve canonical project state and append-only history, with a local helper backup before replacement.
+
+## [2.2.0] - 2026-09-12
+
+### Added
+
+- Live Context Protocol separating public guidance, private current state, and append-only historical truth.
+- Canonical project register plus machine-readable project-state and project-event schemas.
+- Distinct `last_activity_at`, `last_changed_at`, and `last_verified_at` semantics.
+- Permanent project identity and alias rules so renames do not create duplicate projects.
+- Staleness and provenance rules requiring unknown or unverified state to stay explicit.
+
+### Changed
+
+- Continuing-project review now resolves a canonical project ID, reads current state and handoff records, applies decisions and corrections, and then verifies against the real artifact when material.
+- Corrections and state changes use supersession and append-only events instead of rewriting history.
+- Public and private context are explicitly separated; populated private state must never be published in the public framework.
+
 ## [1.1.0] - 2026-09-06
 
 ### Added
