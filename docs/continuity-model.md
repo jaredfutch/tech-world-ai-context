@@ -2,7 +2,26 @@
 
 ## Continuity is controlled, not automatic
 
-The framework treats previous conversations, files, repositories, and records as potential context—not unquestionable truth. Context must be reconciled against newer decisions and current evidence.
+Previous conversations, files, repositories, memories, and summaries are potential context—not unquestionable truth. They must be reconciled against newer decisions and current evidence.
+
+## Current truth and historical truth are separate
+
+A continuing project should preserve both:
+
+- **Current state** — the best supported statement of what is true now.
+- **Historical events** — what happened previously, including superseded states, corrections, deployments, failures, and decisions.
+
+Updating current state must not erase older events. Append a new event and use an explicit supersession relationship when a prior state is replaced.
+
+## Timestamp semantics
+
+Keep these separate:
+
+- `last_activity_at` — most recent known project activity.
+- `last_changed_at` — most recent confirmed material state change.
+- `last_verified_at` — most recent time the recorded state was checked against authoritative evidence.
+
+Activity does not imply verification. A recent conversation does not automatically refresh an old deployment fact.
 
 ## Correction retention
 
@@ -28,7 +47,7 @@ previous value / approach
 
 Use explicit evidence labels when useful:
 
-- **Confirmed** — directly supplied/approved by the user or current authoritative artifact.
+- **Confirmed** — directly supplied or approved by the user or current authoritative artifact.
 - **Observed** — directly seen in repository state, logs, UI, API output, files, or connected systems.
 - **Calculated** — derived from known inputs; show important math.
 - **Estimate** — reasoned range with stated assumptions.
@@ -43,27 +62,7 @@ For substantial software work:
 Requested → Implemented → Code-Verified → Runtime-Tested → Deployed → User-Accepted
 ```
 
-These are evidence states, not writing style.
-
-### Requested
-The user has asked for the change.
-
-### Implemented
-The relevant source files/configuration/data changes have been made.
-
-### Code-Verified
-Static checks appropriate to the repository have passed: syntax, lint, typecheck, tests, build, migrations, or other provided checks.
-
-### Runtime-Tested
-The changed behavior has been exercised in a runtime, browser, service, emulator, device, or equivalent execution environment.
-
-### Deployed
-The verified change has been applied to the intended deployed environment.
-
-### User-Accepted
-The user or authorized stakeholder has accepted the resulting behavior.
-
-Do not call work “done,” “fixed,” “working,” or “production-ready” when the evidence only supports an earlier state.
+These are evidence states, not writing style. Do not upgrade status merely because work was requested or discussed.
 
 ## Conflict handling
 
@@ -76,8 +75,12 @@ Examples:
 - A current signed contract outranks an informal pricing note.
 - Current official API documentation outranks remembered platform behavior.
 
+## Project identity
+
+Use one permanent canonical ID per real continuing project. A rename becomes an alias. A feature, deployment, task, or defect remains under its parent project unless it develops a genuinely independent lifecycle and architecture.
+
 ## Project separation
 
 Continuity does not mean cross-contamination. Keep separate projects, clients, owners, money, schedules, credentials, data sets, and commitments isolated unless a real relationship is established.
 
-Shared components can be reused deliberately, but ownership and state should not transfer merely because two projects are handled by the same person or company.
+See [`live-context-protocol.md`](live-context-protocol.md) for the private current-state and append-only history model.
