@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech-worldllc.com/ai-context/schemas/project-event.schema.json",
+  "title": "Tech-World Private Project Event",
+  "type": "object",
+  "required": ["event_id", "project_id", "event_type", "summary", "occurred_at", "recorded_at", "source_type"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 8},
+    "project_id": {"type": "string"},
+    "event_type": {"type": "string"},
+    "summary": {"type": "string", "minLength": 1},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "source_type": {"type": "string"},
+    "source_ref": {"type": ["string", "null"]},
+    "supersedes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "changes": {"type": "object"},
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
+}
